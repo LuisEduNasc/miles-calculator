@@ -8,6 +8,7 @@ export const fifthColor = '#3aa7a3'
 export const primaryFontColor = '#0d1821'
 export const secondFontColor = '#344966'
 export const thirdFontColor = '#f0f4ef'
+export const fourthFontColor = '#989bac'
 
 export const MainContainer = styled.main`
   margin: 22px;
