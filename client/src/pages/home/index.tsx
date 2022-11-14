@@ -60,7 +60,6 @@ export const Home: React.FC = () => {
   }): void => {
     setCanSubmitForm(true)
     if (keyForm !== 'intermediateCities') {
-      console.log('set field ', keyForm)
       formContext.setSearchForm({
         ...formContext.searchForm,
         [keyForm]: value,
