@@ -1,6 +1,6 @@
 # Getting Started
 
-First access the client folder and create a .env file in the root of the client folder with the variable above:
+First access the client folder and create a .env file in the root of the client folder with the environment variable above (this will set the api root endpoint for the app):
 
 ### `REACT_APP_URL_CITIES=http://localhost:8000`
 
