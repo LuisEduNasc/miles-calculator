@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface IIntermediateCity {
+export interface IIntermediateCity {
   value: string
   errorMessage: string
 }

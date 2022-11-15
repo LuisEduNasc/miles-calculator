@@ -7,9 +7,10 @@ import {
   FaTrash,
 } from 'react-icons/fa'
 import { format, isFuture } from 'date-fns'
+import { parseUrl } from 'query-string'
 
 import { InputForm } from '../../components/inputForm'
-import { SearchFormContext } from '../../contexts/home'
+import { IIntermediateCity, SearchFormContext } from '../../contexts/home'
 import {
   AddButton,
   AddButtonContainer,
@@ -25,6 +26,7 @@ import {
   SearchButton,
   SectionSearch,
 } from './styles'
+import { useNavigate } from 'react-router-dom'
 
 export const Home: React.FC = () => {
   const [extraFields, setExtraFields] = React.useState<Array<number>>([])
@@ -32,6 +34,9 @@ export const Home: React.FC = () => {
   const [canSubmitForm, setCanSubmitForm] = React.useState<boolean>(true)
 
   const formContext = React.useContext(SearchFormContext)
+
+  const queryParams = parseUrl(window.location.search)
+  const navigate = useNavigate()
 
   const handleAddNewFormField = (): void => {
     setExtraFields([...extraFields, extraFieldLastId])
@@ -157,9 +162,60 @@ export const Home: React.FC = () => {
 
   const handleFormSubmit = () => {
     if (!validateFields()) {
-      console.log('submit...')
+      let intermediateCitiesSearch = ''
+      formContext.searchForm.intermediateCities?.forEach((city) => {
+        intermediateCitiesSearch += `&intermediateCities=${city.value}`
+      })
+
+      navigate({
+        pathname: '/results',
+        search: `?origin=${formContext.searchForm.origin}&destination=${
+          formContext.searchForm.destination
+        }&date=${
+          formContext.searchForm.date &&
+          format(new Date(formContext.searchForm.date), 'yyyy-MM-dd')
+        }&passengers=${
+          formContext.searchForm.passengers
+        }${intermediateCitiesSearch}`,
+      })
     }
   }
+
+  const setContextFromURL = () => {
+    const intermediateCitiesSearch = queryParams.query.intermediateCities
+
+    let intermediateCities: Array<string> = []
+    if (intermediateCitiesSearch?.length) {
+      intermediateCities = JSON.stringify(intermediateCitiesSearch)
+        .replace(/[\[\]\"']+/g, '')
+        .split(',')
+    }
+
+    const newIntermediateCitiesSet: Map<number, IIntermediateCity> = new Map()
+    const fieldArray = []
+    for (let idx = 0; idx < intermediateCities.length; idx++) {
+      newIntermediateCitiesSet.set(idx, {
+        value: intermediateCities[idx],
+        errorMessage: '',
+      })
+      fieldArray.push(idx)
+    }
+    setExtraFields(fieldArray)
+    setExtraFieldLastId(intermediateCities.length)
+
+    formContext.setSearchForm({
+      ...formContext.searchForm,
+      origin: queryParams.query.origin?.toString() || '',
+      destination: queryParams.query.destination?.toString() || '',
+      date: queryParams.query.date?.toString() || '',
+      passengers: Number(queryParams.query.passengers) || 0,
+      intermediateCities: newIntermediateCitiesSet,
+    })
+  }
+
+  React.useEffect(() => {
+    setContextFromURL()
+  }, [])
 
   return (
     <SectionSearch>

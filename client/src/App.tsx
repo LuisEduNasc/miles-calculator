@@ -7,6 +7,7 @@ import { HeaderComponent } from './components/header'
 import { Home } from './pages/home'
 import { MainContainer } from './styles'
 import { SearchFormProvider } from './contexts/home'
+import { ResultsPage } from './pages/results'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
         <Home />
       </SearchFormProvider>
     ),
+  },
+  {
+    path: '/results',
+    element: <ResultsPage />,
   },
 ])
 
