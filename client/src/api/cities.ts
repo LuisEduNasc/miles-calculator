@@ -17,7 +17,7 @@ const sleep = (ms: number): Promise<any> => {
 
 export const fetchCities = async (search: string): Promise<ICitiesResponse> => {
   const response = await axios({
-    url: `http://localhost:8000/api/v1/cities/?q=${search}`,
+    url: `${process.env.REACT_APP_URL_CITIES}/api/v1/cities/?q=${search}`,
     method: 'get',
   }).then(await sleep(1500))
 
@@ -26,7 +26,7 @@ export const fetchCities = async (search: string): Promise<ICitiesResponse> => {
 
 export const getKilometers = async (search: Array<string>): Promise<IKilometersResponse[]> => {
   const response = await axios({
-    url: `http://localhost:8000/api/v1/kilometers/?q=${search}`,
+    url: `${process.env.REACT_APP_URL_CITIES}/api/v1/kilometers/?q=${search}`,
     method: 'get',
     headers: {
       'Accept': 'application/json',
