@@ -1,5 +1,27 @@
 {
+  "name": "miles-calculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "dependencies": {
+    "concurrently": "^7.5.0",
+    "nodemon": "^2.0.20",
     "react-icons": "^4.6.0"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "server": "nodemon --quiet server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisEduNasc/miles-calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisEduNasc/miles-calculator/issues"
+  },
+  "homepage": "https://github.com/LuisEduNasc/miles-calculator#readme"
 }
